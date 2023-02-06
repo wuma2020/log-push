@@ -1,0 +1,11 @@
+log-push/logs
+log-push/.mvn
+log-push/target
+
+
+log-push-example/.mvn
+log-push-example/target
+.idea/
+.mvn/
+
+
