@@ -4,7 +4,6 @@ import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.taobao.api.ApiException;
-import com.yomahub.tlog.context.TLogContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**

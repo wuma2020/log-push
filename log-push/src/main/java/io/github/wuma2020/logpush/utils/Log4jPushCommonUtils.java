@@ -1,6 +1,5 @@
 package io.github.wuma2020.logpush.utils;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.yomahub.tlog.context.TLogContext;
 import com.yomahub.tlog.core.context.AspectLogContext;
 import io.github.wuma2020.logpush.context.LogPushContext;

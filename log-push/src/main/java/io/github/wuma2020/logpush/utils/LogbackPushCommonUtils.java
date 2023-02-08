@@ -5,7 +5,6 @@ import com.yomahub.tlog.context.TLogContext;
 import com.yomahub.tlog.core.context.AspectLogContext;
 import io.github.wuma2020.logpush.context.LogPushContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.StringUtils;
 

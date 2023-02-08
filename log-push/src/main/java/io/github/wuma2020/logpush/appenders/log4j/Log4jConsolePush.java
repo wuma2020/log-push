@@ -1,7 +1,6 @@
 package io.github.wuma2020.logpush.appenders.log4j;
 
 import io.github.wuma2020.logpush.utils.Log4jPushCommonUtils;
-import io.github.wuma2020.logpush.utils.LogbackPushCommonUtils;
 import org.apache.logging.log4j.core.*;
 import org.apache.logging.log4j.core.appender.AbstractOutputStreamAppender;
 import org.apache.logging.log4j.core.appender.ManagerFactory;
