@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 
-@ComponentScan(basePackages = {"io.github.wuma2020"})
 @SpringBootApplication
 @Slf4j
 public class LogPushExampleApplication {
