@@ -18,7 +18,7 @@ public class DingTalkUtils {
 
     /**
      * 发送文本消息
-     *
+     *  todo 对于text内容，可以做成可配置的，模板化的，暂时写死
      * @param url
      * @param text
      */
