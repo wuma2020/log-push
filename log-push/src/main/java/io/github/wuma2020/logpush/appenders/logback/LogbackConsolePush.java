@@ -9,6 +9,8 @@ import io.github.wuma2020.logpush.utils.LogbackPushCommonUtils;
  * Date: 2023/1/20 20:42
  * FileName: DingdingPush
  * Description:
+ *
+ * @param <E> the type parameter
  */
 public class LogbackConsolePush<E> extends ConsoleAppender<E> {
 

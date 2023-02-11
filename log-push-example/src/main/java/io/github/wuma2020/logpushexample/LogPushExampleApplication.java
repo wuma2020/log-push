@@ -12,7 +12,7 @@ public class LogPushExampleApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LogPushExampleApplication.class, args);
-        log.info(log.getClass().getName() + " | 测试");
+        log.error(log.getClass().getName() + " | 测试");
     }
 
 }

@@ -34,6 +34,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Plugin(name = Log4jConsolePush.PLUGIN_NAME, category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE, printObject = true)
 public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputStreamManager> {
 
+    /**
+     * The constant PLUGIN_NAME.
+     */
     public static final String PLUGIN_NAME = "Console";
     private static final String JANSI_CLASS = "org.fusesource.jansi.WindowsAnsiOutputStream";
     private static Log4jConsolePush.ConsoleManagerFactory factory = new Log4jConsolePush.ConsoleManagerFactory();
@@ -47,7 +50,9 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
      */
     public enum Target {
 
-        /** Standard output. */
+        /**
+         * Standard output.
+         */
         SYSTEM_OUT {
             @Override
             public Charset getDefaultCharset() {
@@ -56,7 +61,9 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
             }
         },
 
-        /** Standard error output. */
+        /**
+         * Standard error output.
+         */
         SYSTEM_ERR {
             @Override
             public Charset getDefaultCharset() {
@@ -65,8 +72,20 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
             }
         };
 
+        /**
+         * Gets default charset.
+         *
+         * @return the default charset
+         */
         public abstract Charset getDefaultCharset();
 
+        /**
+         * Gets charset.
+         *
+         * @param property       the property
+         * @param defaultCharset the default charset
+         * @return the charset
+         */
         protected Charset getCharset(final String property, final Charset defaultCharset) {
             return new PropertiesUtil(PropertiesUtil.getSystemProperties()).getCharsetProperty(property, defaultCharset);
         }
@@ -83,13 +102,12 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
     /**
      * Creates a Console Appender.
      *
-     * @param layout The layout to use (required).
-     * @param filter The Filter or null.
+     * @param layout    The layout to use (required).
+     * @param filter    The Filter or null.
      * @param targetStr The target ("SYSTEM_OUT" or "SYSTEM_ERR"). The default is "SYSTEM_OUT".
-     * @param name The name of the Appender (required).
-     * @param follow If true will follow changes to the underlying output stream.
-     * @param ignore If {@code "true"} (default) exceptions encountered when appending events are logged; otherwise they
-     *            are propagated to the caller.
+     * @param name      The name of the Appender (required).
+     * @param follow    If true will follow changes to the underlying output stream.
+     * @param ignore    If {@code "true"} (default) exceptions encountered when appending events are logged; otherwise they            are propagated to the caller.
      * @return The ConsoleAppender.
      * @deprecated Deprecated in 2.7; use {@link #newBuilder()}.
      */
@@ -116,15 +134,13 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
     /**
      * Creates a Console Appender.
      *
-     * @param layout The layout to use (required).
-     * @param filter The Filter or null.
-     * @param target The target (SYSTEM_OUT or SYSTEM_ERR). The default is SYSTEM_OUT.
-     * @param name The name of the Appender (required).
-     * @param follow If true will follow changes to the underlying output stream.
-     * @param direct If true will write directly to {@link java.io.FileDescriptor} and bypass
-     *            {@link System#out}/{@link System#err}.
-     * @param ignoreExceptions If {@code "true"} (default) exceptions encountered when appending events are logged; otherwise they
-     *            are propagated to the caller.
+     * @param layout           The layout to use (required).
+     * @param filter           The Filter or null.
+     * @param target           The target (SYSTEM_OUT or SYSTEM_ERR). The default is SYSTEM_OUT.
+     * @param name             The name of the Appender (required).
+     * @param follow           If true will follow changes to the underlying output stream.
+     * @param direct           If true will write directly to {@link java.io.FileDescriptor} and bypass            {@link System#out}/{@link System#err}.
+     * @param ignoreExceptions If {@code "true"} (default) exceptions encountered when appending events are logged; otherwise they            are propagated to the caller.
      * @return The ConsoleAppender.
      * @deprecated Deprecated in 2.7; use {@link #newBuilder()}.
      */
@@ -154,12 +170,24 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
         return new Log4jConsolePush(name, layout, filter, getManager(target, follow, direct, layout), ignoreExceptions, target, null);
     }
 
+    /**
+     * Create default appender for layout log 4 j console push.
+     *
+     * @param layout the layout
+     * @return the log 4 j console push
+     */
     public static Log4jConsolePush createDefaultAppenderForLayout(final Layout<? extends Serializable> layout) {
         // this method cannot use the builder class without introducing an infinite loop due to DefaultConfiguration
         return new Log4jConsolePush("DefaultConsole-" + COUNT.incrementAndGet(), layout, null,
                 getDefaultManager(DEFAULT_TARGET, false, false, layout), true, DEFAULT_TARGET, null);
     }
 
+    /**
+     * New builder b.
+     *
+     * @param <B> the type parameter
+     * @return the b
+     */
     @PluginBuilderFactory
     public static <B extends Log4jConsolePush.Builder<B>> B newBuilder() {
         return new Log4jConsolePush.Builder<B>().asBuilder();
@@ -176,6 +204,7 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
 
     /**
      * Builds ConsoleAppender instances.
+     *
      * @param <B> The type to build
      */
     public static class Builder<B extends Log4jConsolePush.Builder<B>> extends AbstractOutputStreamAppender.Builder<B>
@@ -191,16 +220,34 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
         @PluginBuilderAttribute
         private boolean direct;
 
+        /**
+         * Sets target.
+         *
+         * @param aTarget the a target
+         * @return the target
+         */
         public B setTarget(final Log4jConsolePush.Target aTarget) {
             this.target = aTarget;
             return asBuilder();
         }
 
+        /**
+         * Sets follow.
+         *
+         * @param shouldFollow the should follow
+         * @return the follow
+         */
         public B setFollow(final boolean shouldFollow) {
             this.follow = shouldFollow;
             return asBuilder();
         }
 
+        /**
+         * Sets direct.
+         *
+         * @param shouldDirect the should direct
+         * @return the direct
+         */
         public B setDirect(final boolean shouldDirect) {
             this.direct = shouldDirect;
             return asBuilder();
@@ -275,6 +322,9 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
      * An implementation of OutputStream that redirects to the current System.err.
      */
     private static class SystemErrStream extends OutputStream {
+        /**
+         * Instantiates a new System err stream.
+         */
         public SystemErrStream() {
         }
 
@@ -308,6 +358,9 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
      * An implementation of OutputStream that redirects to the current System.out.
      */
     private static class SystemOutStream extends OutputStream {
+        /**
+         * Instantiates a new System out stream.
+         */
         public SystemOutStream() {
         }
 
@@ -348,8 +401,8 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
         /**
          * Constructor.
          *
-         * @param os The OutputStream.
-         * @param type The name of the target.
+         * @param os     The OutputStream.
+         * @param type   The name of the target.
          * @param layout A Serializable layout
          */
         public FactoryData(final OutputStream os, final String type, final Layout<? extends Serializable> layout) {
@@ -377,6 +430,11 @@ public final class Log4jConsolePush extends AbstractOutputStreamAppender<OutputS
         }
     }
 
+    /**
+     * Gets target.
+     *
+     * @return the target
+     */
     public Log4jConsolePush.Target getTarget() {
         return target;
     }

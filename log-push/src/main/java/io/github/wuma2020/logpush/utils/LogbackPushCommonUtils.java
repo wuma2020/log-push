@@ -23,7 +23,7 @@ public class LogbackPushCommonUtils {
     /**
      * 理论上 event 就是日志对象
      *
-     * @param event
+     * @param event the event
      */
     public static void push(Object event) {
 
@@ -41,19 +41,19 @@ public class LogbackPushCommonUtils {
                 if (Strings.isNotBlank(url)) {
                     String message = null;
                     if (iLoggingEvent.getThrowableProxy() == null) {
-                        message = String.format("traceID:[%s],错误msg:[%s],info:[%s]", TLogContext.getTraceId(), iLoggingEvent.getMessage(), AspectLogContext.getLogValue());
+                        message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(), iLoggingEvent.getMessage());
                     } else {
                         StringBuilder sb = new StringBuilder();
                         // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
                         Arrays.asList(iLoggingEvent.getThrowableProxy().getStackTraceElementProxyArray()).forEach(sof -> {
                             sb.append(sof.toString()).append("\r");
                         });
-                        message = String.format("traceID:[%s],错误msg:[%s],info:[%s],异常栈信息:\r[%s]", TLogContext.getTraceId(), iLoggingEvent.getMessage(), AspectLogContext.getLogValue(), sb);
+                        message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(), LogPushContext.getEnv(), iLoggingEvent.getMessage(), sb);
                     }
                     DingTalkUtils.sendText(url, message);
                 }
             }
-        }else {
+        } else {
             System.out.println("event type not support : " + event.getClass().getName());
         }
     }

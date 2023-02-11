@@ -19,15 +19,16 @@ public class DingTalkUtils {
     /**
      * 发送文本消息
      *  todo 对于text内容，可以做成可配置的，模板化的，暂时写死
-     * @param url
-     * @param text
+     *
+     * @param url  the url
+     * @param text the text
      */
     public static void sendText(String url, String text) {
         DingTalkClient client = new DefaultDingTalkClient(url);
         OapiRobotSendRequest request = new OapiRobotSendRequest();
         request.setMsgtype("text");
         OapiRobotSendRequest.Text textType = new OapiRobotSendRequest.Text();
-        textType.setContent("业务报警:" + text);
+        textType.setContent("业务报警\r" + text);
         request.setText(textType);
         try {
             //发送是否失败，不做处理，直接抛出异常即可。如果再调用log.error容易造成死循环

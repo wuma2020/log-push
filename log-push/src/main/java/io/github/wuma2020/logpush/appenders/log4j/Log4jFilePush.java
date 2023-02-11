@@ -29,7 +29,6 @@ import java.util.concurrent.TimeUnit;
  * FileName: Log4jConsolePush
  * Description: 自定义console appender
  */
-
 @Plugin(
         name = "File",
         category = "Core",
@@ -37,6 +36,9 @@ import java.util.concurrent.TimeUnit;
         printObject = true
 )
 public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManager> {
+    /**
+     * The constant PLUGIN_NAME.
+     */
     public static final String PLUGIN_NAME = "File";
     private static final int DEFAULT_BUFFER_SIZE = 8192;
     private final String fileName;
@@ -44,6 +46,23 @@ public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManage
     private final Object advertisement;
 
     /**
+     * Create appender log 4 j file push.
+     *
+     * @param <B>              the type parameter
+     * @param fileName         the file name
+     * @param append           the append
+     * @param locking          the locking
+     * @param name             the name
+     * @param immediateFlush   the immediate flush
+     * @param ignoreExceptions the ignore exceptions
+     * @param bufferedIo       the buffered io
+     * @param bufferSizeStr    the buffer size str
+     * @param layout           the layout
+     * @param filter           the filter
+     * @param advertise        the advertise
+     * @param advertiseUri     the advertise uri
+     * @param config           the config
+     * @return the log 4 j file push
      * @deprecated
      */
     @Deprecated
@@ -51,6 +70,12 @@ public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManage
         return ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) ((Log4jFilePush.Builder) newBuilder().withAdvertise(Boolean.parseBoolean(advertise)).withAdvertiseUri(advertiseUri).withAppend(Booleans.parseBoolean(append, true)).withBufferedIo(Booleans.parseBoolean(bufferedIo, true))).withBufferSize(Integers.parseInt(bufferSizeStr, 8192))).setConfiguration(config)).withFileName(fileName).setFilter(filter)).setIgnoreExceptions(Booleans.parseBoolean(ignoreExceptions, true))).withImmediateFlush(Booleans.parseBoolean(immediateFlush, true))).setLayout(layout)).withLocking(Boolean.parseBoolean(locking)).setName(name)).build();
     }
 
+    /**
+     * New builder b.
+     *
+     * @param <B> the type parameter
+     * @return the b
+     */
     @PluginBuilderFactory
     public static <B extends Log4jFilePush.Builder<B>> B newBuilder() {
         return (B) (new Builder()).asBuilder();
@@ -79,6 +104,11 @@ public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManage
         Log4jPushCommonUtils.push(event);
     }
 
+    /**
+     * Gets file name.
+     *
+     * @return the file name
+     */
     public String getFileName() {
         return this.fileName;
     }
@@ -94,6 +124,11 @@ public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManage
         return true;
     }
 
+    /**
+     * The type Builder.
+     *
+     * @param <B> the type parameter
+     */
     public static class Builder<B extends Log4jFilePush.Builder<B>> extends AbstractOutputStreamAppender.Builder<B> implements org.apache.logging.log4j.core.util.Builder<Log4jFilePush> {
         @PluginBuilderAttribute
         @Required
@@ -115,6 +150,9 @@ public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManage
         @PluginBuilderAttribute
         private String fileGroup;
 
+        /**
+         * Instantiates a new Builder.
+         */
         public Builder() {
         }
 
@@ -135,82 +173,181 @@ public final class Log4jFilePush extends AbstractOutputStreamAppender<FileManage
             return manager == null ? null : new Log4jFilePush(this.getName(), layout, this.getFilter(), manager, this.fileName, this.isIgnoreExceptions(), !bufferedIo || this.isImmediateFlush(), this.advertise ? this.getConfiguration().getAdvertiser() : null, this.getPropertyArray());
         }
 
+        /**
+         * Gets advertise uri.
+         *
+         * @return the advertise uri
+         */
         public String getAdvertiseUri() {
             return this.advertiseUri;
         }
 
+        /**
+         * Gets file name.
+         *
+         * @return the file name
+         */
         public String getFileName() {
             return this.fileName;
         }
 
+        /**
+         * Is advertise boolean.
+         *
+         * @return the boolean
+         */
         public boolean isAdvertise() {
             return this.advertise;
         }
 
+        /**
+         * Is append boolean.
+         *
+         * @return the boolean
+         */
         public boolean isAppend() {
             return this.append;
         }
 
+        /**
+         * Is create on demand boolean.
+         *
+         * @return the boolean
+         */
         public boolean isCreateOnDemand() {
             return this.createOnDemand;
         }
 
+        /**
+         * Is locking boolean.
+         *
+         * @return the boolean
+         */
         public boolean isLocking() {
             return this.locking;
         }
 
+        /**
+         * Gets file permissions.
+         *
+         * @return the file permissions
+         */
         public String getFilePermissions() {
             return this.filePermissions;
         }
 
+        /**
+         * Gets file owner.
+         *
+         * @return the file owner
+         */
         public String getFileOwner() {
             return this.fileOwner;
         }
 
+        /**
+         * Gets file group.
+         *
+         * @return the file group
+         */
         public String getFileGroup() {
             return this.fileGroup;
         }
 
+        /**
+         * With advertise b.
+         *
+         * @param advertise the advertise
+         * @return the b
+         */
         public B withAdvertise(final boolean advertise) {
             this.advertise = advertise;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With advertise uri b.
+         *
+         * @param advertiseUri the advertise uri
+         * @return the b
+         */
         public B withAdvertiseUri(final String advertiseUri) {
             this.advertiseUri = advertiseUri;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With append b.
+         *
+         * @param append the append
+         * @return the b
+         */
         public B withAppend(final boolean append) {
             this.append = append;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With file name b.
+         *
+         * @param fileName the file name
+         * @return the b
+         */
         public B withFileName(final String fileName) {
             this.fileName = fileName;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With create on demand b.
+         *
+         * @param createOnDemand the create on demand
+         * @return the b
+         */
         public B withCreateOnDemand(final boolean createOnDemand) {
             this.createOnDemand = createOnDemand;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With locking b.
+         *
+         * @param locking the locking
+         * @return the b
+         */
         public B withLocking(final boolean locking) {
             this.locking = locking;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With file permissions b.
+         *
+         * @param filePermissions the file permissions
+         * @return the b
+         */
         public B withFilePermissions(final String filePermissions) {
             this.filePermissions = filePermissions;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With file owner b.
+         *
+         * @param fileOwner the file owner
+         * @return the b
+         */
         public B withFileOwner(final String fileOwner) {
             this.fileOwner = fileOwner;
             return (B) this.asBuilder();
         }
 
+        /**
+         * With file group b.
+         *
+         * @param fileGroup the file group
+         * @return the b
+         */
         public B withFileGroup(final String fileGroup) {
             this.fileGroup = fileGroup;
             return (B) this.asBuilder();
