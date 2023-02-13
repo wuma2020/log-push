@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.wuma2020</groupId>
     <artifactId>log-push</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>log-push</name>
     <description>log-push</description>
     <url>https://github.com/wuma2020/log-push</url>

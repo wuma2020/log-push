@@ -22,7 +22,7 @@
         <dependency>
             <groupId>io.github.wuma2020</groupId>
             <artifactId>log-push</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2-SNAPSHOT</version>
         </dependency>
 
         <!-- log4j2的核心包 -->

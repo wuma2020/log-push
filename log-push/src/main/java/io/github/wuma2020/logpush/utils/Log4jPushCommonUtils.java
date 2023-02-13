@@ -41,7 +41,8 @@ public class Log4jPushCommonUtils {
                 if (Strings.isNotBlank(url)) {
                     String message = null;
                     if (iLoggingEvent.getThrownProxy() == null) {
-                        message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(), iLoggingEvent.getMessage());
+                        message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(),
+                                AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage());
                     } else {
                         StringBuilder sb = new StringBuilder();
                         // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
@@ -49,7 +50,8 @@ public class Log4jPushCommonUtils {
                             sb.append(sof.toString()).append("\r");
                         });
                         //"应用名称:%s\n环境:%s\n信息:%s\n堆栈信息:%s\n"
-                        message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(), LogPushContext.getEnv(), iLoggingEvent.getMessage(), sb);
+                        message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
+                                LogPushContext.getEnv(), AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage(), sb);
                     }
                     DingTalkUtils.sendText(url, message);
                 }

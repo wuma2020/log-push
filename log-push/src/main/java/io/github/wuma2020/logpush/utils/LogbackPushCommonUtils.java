@@ -41,14 +41,16 @@ public class LogbackPushCommonUtils {
                 if (Strings.isNotBlank(url)) {
                     String message = null;
                     if (iLoggingEvent.getThrowableProxy() == null) {
-                        message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(), iLoggingEvent.getMessage());
+                        message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(),
+                                AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage());
                     } else {
                         StringBuilder sb = new StringBuilder();
                         // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
                         Arrays.asList(iLoggingEvent.getThrowableProxy().getStackTraceElementProxyArray()).forEach(sof -> {
                             sb.append(sof.toString()).append("\r");
                         });
-                        message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(), LogPushContext.getEnv(), iLoggingEvent.getMessage(), sb);
+                        message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
+                                LogPushContext.getEnv(), AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage(), sb);
                     }
                     DingTalkUtils.sendText(url, message);
                 }
