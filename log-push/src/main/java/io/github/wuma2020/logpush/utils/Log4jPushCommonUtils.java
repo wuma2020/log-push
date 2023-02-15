@@ -1,5 +1,6 @@
 package io.github.wuma2020.logpush.utils;
 
+import com.yomahub.tlog.constant.TLogConstants;
 import com.yomahub.tlog.context.TLogContext;
 import com.yomahub.tlog.core.context.AspectLogContext;
 import io.github.wuma2020.logpush.context.LogPushContext;
@@ -42,7 +43,7 @@ public class Log4jPushCommonUtils {
                     String message = null;
                     if (iLoggingEvent.getThrownProxy() == null) {
                         message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(),
-                                AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage());
+                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage());
                     } else {
                         StringBuilder sb = new StringBuilder();
                         // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
@@ -51,7 +52,8 @@ public class Log4jPushCommonUtils {
                         });
                         //"应用名称:%s\n环境:%s\n信息:%s\n堆栈信息:%s\n"
                         message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
-                                LogPushContext.getEnv(), AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage(), sb);
+                                LogPushContext.getEnv(),
+                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage(), sb);
                     }
                     DingTalkUtils.sendText(url, message);
                 }
@@ -59,6 +61,10 @@ public class Log4jPushCommonUtils {
         } else {
             System.out.println("event type not support : " + event.getClass().getName());
         }
+    }
+
+    private static String getCustomContextData(LogEvent iLoggingEvent) {
+        return iLoggingEvent.getContextData().getValue(TLogConstants.MDC_KEY);
     }
 
 }

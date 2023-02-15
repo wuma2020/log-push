@@ -1,10 +1,12 @@
 package io.github.wuma2020.logpush.utils;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import com.yomahub.tlog.constant.TLogConstants;
 import com.yomahub.tlog.context.TLogContext;
 import com.yomahub.tlog.core.context.AspectLogContext;
 import io.github.wuma2020.logpush.context.LogPushContext;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.StringUtils;
 
@@ -42,7 +44,7 @@ public class LogbackPushCommonUtils {
                     String message = null;
                     if (iLoggingEvent.getThrowableProxy() == null) {
                         message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(),
-                                AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage());
+                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage());
                     } else {
                         StringBuilder sb = new StringBuilder();
                         // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
@@ -50,7 +52,8 @@ public class LogbackPushCommonUtils {
                             sb.append(sof.toString()).append("\r");
                         });
                         message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
-                                LogPushContext.getEnv(), AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage(), sb);
+                                LogPushContext.getEnv(),
+                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage(), sb);
                     }
                     DingTalkUtils.sendText(url, message);
                 }
@@ -58,6 +61,10 @@ public class LogbackPushCommonUtils {
         } else {
             System.out.println("event type not support : " + event.getClass().getName());
         }
+    }
+
+    private static String getCustomContextData(ILoggingEvent iLoggingEvent) {
+        return iLoggingEvent.getMDCPropertyMap().get(TLogConstants.MDC_KEY);
     }
 
 }

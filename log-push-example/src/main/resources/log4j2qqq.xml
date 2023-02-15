@@ -4,6 +4,9 @@
         <Console name="LogToConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%tid] %-5level %logger{36} - %msg%n"/>
         </Console>
+        <Async name="Async">
+            <AppenderRef ref="LogToConsole"/>
+        </Async>
     </Appenders>
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
@@ -11,7 +14,7 @@
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="INFO">
-            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="Async"/>
         </Root>
     </Loggers>
 </Configuration>
