@@ -44,7 +44,7 @@ public class LogbackPushCommonUtils {
                     String message = null;
                     if (iLoggingEvent.getThrowableProxy() == null) {
                         message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(),
-                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage());
+                                getCustomContextData(iLoggingEvent));
                     } else {
                         StringBuilder sb = new StringBuilder();
                         // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
@@ -53,7 +53,7 @@ public class LogbackPushCommonUtils {
                         });
                         message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
                                 LogPushContext.getEnv(),
-                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage(), sb);
+                                getCustomContextData(iLoggingEvent), sb);
                     }
                     DingTalkUtils.sendText(url, message);
                 }
@@ -64,7 +64,13 @@ public class LogbackPushCommonUtils {
     }
 
     private static String getCustomContextData(ILoggingEvent iLoggingEvent) {
-        return iLoggingEvent.getMDCPropertyMap().get(TLogConstants.MDC_KEY);
+        if(iLoggingEvent.getMDCPropertyMap() != null){
+            return iLoggingEvent.getMDCPropertyMap().get(TLogConstants.MDC_KEY) + " " + iLoggingEvent.getMessage();
+        }else if(!TLogContext.hasTLogMDC()){
+            return iLoggingEvent.getFormattedMessage();
+        }else {
+            return AspectLogContext.getLogValue() + " " + iLoggingEvent.getMessage();
+        }
     }
 
 }

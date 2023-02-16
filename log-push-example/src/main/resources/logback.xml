@@ -28,8 +28,13 @@
         </encoder>
     </appender>
 
+    <appender name="async" class="io.github.wuma2020.logpush.appenders.logback.LogbackAspectLogbackAsyncPush">
+        <appender-ref ref="Console"/>
+    </appender>
+
     <!-- 日志输出级别 -->
     <root level="INFO">
+<!--        <appender-ref ref="async" />-->
         <appender-ref ref="Console" />
 <!--        <appender-ref ref="SyncLogFile" />-->
     </root>
