@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 
+    /**
+     * Get string string.
+     *
+     * @return the string
+     */
     @GetMapping("tt")
     public String getString(){
 

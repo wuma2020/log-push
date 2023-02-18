@@ -11,8 +11,17 @@ import java.util.Arrays;
  */
 public enum MsgType {
 
+    /**
+     * Text type msg type.
+     */
     TEXT_TYPE("text", "文本类型"),
+    /**
+     * Markdown text msg type.
+     */
     MARKDOWN_TEXT("markdown", "markdown类型"),
+    /**
+     * Image text msg type.
+     */
     IMAGE_TEXT("image", "图片类型"),
 
     ;
@@ -32,18 +41,38 @@ public enum MsgType {
         this.desc = desc;
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Sets type.
+     *
+     * @param type the type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Gets desc.
+     *
+     * @return the desc
+     */
     public String getDesc() {
         return desc;
     }
 
+    /**
+     * Sets desc.
+     *
+     * @param desc the desc
+     */
     public void setDesc(String desc) {
         this.desc = desc;
     }
@@ -51,8 +80,8 @@ public enum MsgType {
     /**
      * 根据字符串获取消息类型
      *
-     * @param typeString
-     * @return
+     * @param typeString the type string
+     * @return type by string
      */
     public static MsgType getTypeByString(String typeString) {
         MsgType msgType = Arrays.stream(MsgType.values()).filter(type -> {
