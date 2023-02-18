@@ -1,8 +1,6 @@
 package io.github.wuma2020.logpush.utils;
 
 import com.yomahub.tlog.constant.TLogConstants;
-import com.yomahub.tlog.context.TLogContext;
-import com.yomahub.tlog.core.context.AspectLogContext;
 import io.github.wuma2020.logpush.context.LogPushContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.core.LogEvent;
@@ -32,34 +30,43 @@ public class Log4jPushCommonUtils {
             return;
         }
 
-        //对指定等级日志进行推送报警
         if (event instanceof LogEvent) {
             LogEvent iLoggingEvent = (LogEvent) event;
             String levelStr = iLoggingEvent.getLevel().toString();
             if (LogPushContext.getLogPushLevel().equalsIgnoreCase(levelStr)) {
-                //进行获取日志信息和钉钉信息，进行推送
                 String url = LogPushContext.getUrl();
                 if (Strings.isNotBlank(url)) {
-                    String message = null;
-                    if (iLoggingEvent.getThrownProxy() == null) {
-                        message = String.format(LogPushContext.TEXT_STRING, LogPushContext.getAppName(), LogPushContext.getEnv(),
-                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage());
-                    } else {
-                        StringBuilder sb = new StringBuilder();
-                        // TODO 栈信息行数可以做成可以控制的，比如前30行或者50行堆栈信息
-                        Arrays.asList(iLoggingEvent.getThrownProxy().getStackTrace()).forEach(sof -> {
-                            sb.append(sof.toString()).append("\r");
-                        });
-                        //"应用名称:%s\n环境:%s\n信息:%s\n堆栈信息:%s\n"
-                        message = String.format(LogPushContext.TEXT_STRING + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
-                                LogPushContext.getEnv(),
-                                getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage(), sb);
-                    }
+                    String message = getMessage(iLoggingEvent);
                     DingTalkUtils.sendText(url, message);
                 }
             }
         } else {
             System.out.println("event type not support : " + event.getClass().getName());
+        }
+    }
+
+    private static String getMessage(LogEvent iLoggingEvent) {
+
+        String message;
+        if (iLoggingEvent.getThrownProxy() == null) {
+            message = String.format(LogPushContext.getTextString(), LogPushContext.getAppName(), LogPushContext.getEnv(),
+                    getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage());
+        } else {
+            StringBuilder sb = new StringBuilder();
+            getStackInfo(iLoggingEvent, sb);
+            message = String.format(LogPushContext.getTextString() + LogPushContext.getStackInfo(), LogPushContext.getAppName(),
+                    LogPushContext.getEnv(),
+                    getCustomContextData(iLoggingEvent) + " " + iLoggingEvent.getMessage(), sb);
+        }
+        return message;
+    }
+
+    private static void getStackInfo(LogEvent iLoggingEvent, StringBuilder sb) {
+        for (StackTraceElement sof : Arrays.asList(iLoggingEvent.getThrownProxy().getStackTrace())) {
+            if (sb.length() > LogPushContext.getMaxStackNumber()) {
+                return;
+            }
+            sb.append(sof.toString()).append("\n");
         }
     }
 

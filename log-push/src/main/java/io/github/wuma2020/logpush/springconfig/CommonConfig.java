@@ -1,6 +1,7 @@
 package io.github.wuma2020.logpush.springconfig;
 
 import io.github.wuma2020.logpush.context.LogPushContext;
+import io.github.wuma2020.logpush.context.MsgType;
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,9 +29,33 @@ public class CommonConfig implements InitializingBean {
      */
     private String logPushLevel;
 
+    /**
+     * 消息的类型
+     */
+    private String msgType;
+
+    /**
+     * 当前应用的名称
+     */
+    private String appName = "appName";
+
+    /**
+     * 当前环境-一般是dev,test,pre,prod
+     */
+    private String env = "test";
+
+    /**
+     * 输出最大的堆栈深度
+     */
+    private Integer maxStackNumber = 1000;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         LogPushContext.setUrl(this.getUrl());
         LogPushContext.setLogPushLevel(this.getLogPushLevel());
+        LogPushContext.setMessageType(MsgType.getTypeByString(this.getMsgType()));
+        LogPushContext.setEnv(this.getEnv());
+        LogPushContext.setAppName(this.getAppName());
+        LogPushContext.setMaxStackNumber(this.getMaxStackNumber());
     }
 }

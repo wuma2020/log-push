@@ -1,7 +1,5 @@
 package io.github.wuma2020.logpush.context;
 
-import lombok.Data;
-
 /**
  * Copyright (C), 2022-2023, wuma2020
  * Author: wuma2020
@@ -14,37 +12,42 @@ public class LogPushContext {
     /**
      * 发送消息的群 服务器url
      */
-    public static String url;
+    private static String url;
 
     /**
      * 需要推送的日志级别
      */
-    public static String logPushLevel = "ERROR";
+    private static String logPushLevel = "ERROR";
 
     /**
      * 当前应用的名称
      */
-    public static String appName = "appName";
+    private static String appName = "appName";
 
     /**
      * 当前环境-一般是dev,test,pre,prod
      */
-    public static String env = "test";
+    private static String env = "test";
 
     /**
      * 默认的消息卡片类型
      */
-    public static String MESSAGE_TYPE = "text";
+    private static MsgType MESSAGE_TYPE = MsgType.TEXT_TYPE;
+
+    /**
+     * 输出最大的堆栈深度
+     */
+    private static Integer maxStackNumber = 10000;
 
     /**
      * text 消息格式下的内容
      */
-    public static String TEXT_STRING = "应用名称:%s\r环境:%s\r信息:%s\r";
+    private static String TEXT_STRING = "应用名称:%s\n环境:%s\n信息:%s\n";
 
     /**
      * 堆栈信息
      */
-    public static String STACK_INFO = "堆栈信息:%s\r";
+    private static String STACK_INFO = "堆栈信息:%s\n";
 
     public static String getStackInfo() {
         return STACK_INFO;
@@ -54,11 +57,11 @@ public class LogPushContext {
         LogPushContext.STACK_INFO = stackInfo;
     }
 
-    public static String getMessageType() {
+    public static MsgType getMessageType() {
         return MESSAGE_TYPE;
     }
 
-    public static void setMessageType(String messageType) {
+    public static void setMessageType(MsgType messageType) {
         LogPushContext.MESSAGE_TYPE = messageType;
     }
 
@@ -84,6 +87,14 @@ public class LogPushContext {
 
     public static void setEnv(String env) {
         LogPushContext.env = env;
+    }
+
+    public static Integer getMaxStackNumber() {
+        return maxStackNumber;
+    }
+
+    public static void setMaxStackNumber(Integer maxStackNumber) {
+        LogPushContext.maxStackNumber = maxStackNumber;
     }
 
     /**
@@ -121,4 +132,6 @@ public class LogPushContext {
     public static void setLogPushLevel(String logPushLevel) {
         LogPushContext.logPushLevel = logPushLevel;
     }
+
+
 }
